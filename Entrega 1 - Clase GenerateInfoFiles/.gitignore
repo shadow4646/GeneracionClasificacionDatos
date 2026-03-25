@@ -1,0 +1,9 @@
+# Archivos compilados de Java
+*.class
+bin/
+
+# Archivos generados por el programa (se crean al ejecutar GenerateInfoFiles)
+*.txt
+
+# Archivos de configuracion local de Eclipse
+.settings/
