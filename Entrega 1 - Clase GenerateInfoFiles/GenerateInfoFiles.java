@@ -1,4 +1,4 @@
-﻿import java.io.BufferedWriter;
+import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
@@ -121,10 +121,12 @@ public class GenerateInfoFiles {
             writeSalesManInfoFile(docTypes, docNumbers, firstNames, lastNames);
             System.out.println("[OK] Archivo de informacion de vendedores generado: " + SALESMEN_INFO_FILE);
 
-            // 4. Generar un archivo de ventas por cada vendedor usando los MISMOS datos
+            // 4. Generar un archivo de ventas por cada vendedor usando los MISMOS datos.
+            //    Se pasa docTypes[i] para que el TipoDocumento del archivo de ventas
+            //    coincida exactamente con el del archivo de informacion de vendedores.
             for (int i = 0; i < DEFAULT_SALESMAN_COUNT; i++) {
                 int salesCount = 1 + RANDOM.nextInt(MAX_SALES_PER_VENDOR);
-                createSalesMenFile(salesCount, firstNames[i], docNumbers[i]);
+                createSalesMenFile(salesCount, firstNames[i], docNumbers[i], docTypes[i]);
                 System.out.println("[OK] Archivo de ventas generado: "
                         + firstNames[i] + "_" + docNumbers[i] + ".txt");
             }
@@ -178,6 +180,10 @@ public class GenerateInfoFiles {
      * <p>Incluye validacion: no se generan cantidades negativas ni IDs de producto
      * fuera del rango de productos existentes.</p>
      *
+     * <p>Usa un tipo de documento aleatorio. Para garantizar coherencia con el
+     * archivo de informacion de vendedores, use la sobrecarga que acepta
+     * {@code documentType}.</p>
+     *
      * @param randomSalesCount Numero de lineas de venta a generar
      * @param name             Nombre del vendedor (usado en el nombre del archivo)
      * @param id               Numero de documento del vendedor
@@ -185,6 +191,23 @@ public class GenerateInfoFiles {
      */
     public static void createSalesMenFile(int randomSalesCount, String name, long id)
             throws IOException {
+        String documentType = DOCUMENT_TYPES[RANDOM.nextInt(DOCUMENT_TYPES.length)];
+        createSalesMenFile(randomSalesCount, name, id, documentType);
+    }
+
+    /**
+     * Crea un archivo pseudoaleatorio de ventas para un vendedor especifico,
+     * usando el tipo de documento indicado para garantizar coherencia con el
+     * archivo de informacion de vendedores.
+     *
+     * @param randomSalesCount Numero de lineas de venta a generar
+     * @param name             Nombre del vendedor (usado en el nombre del archivo)
+     * @param id               Numero de documento del vendedor
+     * @param documentType     Tipo de documento del vendedor (CC, CE, PP, TI)
+     * @throws IOException Si ocurre un error al escribir el archivo
+     */
+    public static void createSalesMenFile(int randomSalesCount, String name, long id,
+            String documentType) throws IOException {
 
         // Validacion de parametros de entrada
         if (randomSalesCount <= 0) {
@@ -202,7 +225,6 @@ public class GenerateInfoFiles {
         }
 
         String fileName = name + "_" + id + ".txt";
-        String documentType = DOCUMENT_TYPES[RANDOM.nextInt(DOCUMENT_TYPES.length)];
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
 
@@ -342,4 +364,3 @@ public class GenerateInfoFiles {
         return true;
     }
 }
-
