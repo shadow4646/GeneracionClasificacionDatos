@@ -32,6 +32,11 @@ conocimientos fundamentales de programacion en Java:
 - Validacion de datos de entrada para detectar formatos incorrectos e informacion
   incoherente, como IDs de productos inexistentes o cantidades negativas.
 
+- Procesamiento de multiples archivos por vendedor: la clase main acumula los
+  totales de ventas usando el numero de documento como clave, por lo que varios
+  archivos que pertenecen al mismo vendedor se agregan correctamente sin duplicar
+  registros en el reporte final.
+
 ========================================================================
 2. POSIBLES APLICACIONES EN LA VIDA PROFESIONAL
 ========================================================================
@@ -75,8 +80,13 @@ A lo largo del proyecto se presentaron las siguientes dificultades:
 
 - Identificacion de archivos de ventas: distinguir automaticamente los archivos
   de ventas de los demas archivos .txt presentes en la carpeta (productos,
-  vendedores, reportes) sin solicitar informacion al usuario implico definir
+  vendedores, conclusiones) sin solicitar informacion al usuario implico definir
   una lista de exclusiones y confiar en las convenciones de nombre de archivo.
+
+- Soporte de multiples archivos por vendedor (extra a): garantizar que al generar
+  un segundo archivo para el mismo vendedor, el encabezado llevara el mismo
+  TipoDocumento y NumeroDocumento para que la clase main pudiera reconocerlo y
+  acumular las ventas correctamente.
 
 - Compatibilidad con Java 8: algunas construcciones modernas de Java (como
   lambdas y streams) no podian usarse de la misma forma que en versiones mas

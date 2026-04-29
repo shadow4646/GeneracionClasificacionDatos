@@ -34,9 +34,16 @@ import java.util.Set;
  *   <li>{@code Nombre_NumDoc.txt}: un archivo por cada vendedor con sus ventas.</li>
  * </ul>
  *
- * <p><b>Extra implementado:</b> deteccion y reporte de entradas con formato
- * incorrecto o datos incoherentes (ID de producto inexistente, cantidades
- * no positivas, campos faltantes).</p>
+ * <p><b>Extras implementados:</b></p>
+ * <ul>
+ *   <li><b>(a) Multiples archivos por vendedor:</b> si {@code GenerateInfoFiles}
+ *       genera mas de un archivo para el mismo vendedor (igual numero de documento
+ *       en el encabezado), este programa los detecta y acumula las ventas de todos
+ *       ellos en el mismo total.</li>
+ *   <li><b>(c) Deteccion de formato incorrecto e informacion incoherente:</b>
+ *       ID de producto inexistente en el catalogo, cantidades no positivas,
+ *       campos faltantes o precio no numerico.</li>
+ * </ul>
  *
  * <p>El programa no solicita informacion al usuario.</p>
  *

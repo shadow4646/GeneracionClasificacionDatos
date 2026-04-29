@@ -42,6 +42,13 @@ public class GenerateInfoFiles {
     /** Cantidad maxima vendida de un producto por transaccion */
     private static final int MAX_QUANTITY_PER_SALE = 20;
 
+    /**
+     * Probabilidad (entre 0.0 y 1.0) de que un vendedor tenga un segundo
+     * archivo de ventas. Implementa el extra (a): procesamiento de mas de
+     * un archivo por vendedor.
+     */
+    private static final double EXTRA_FILE_PROBABILITY = 0.5;
+
     /** Nombre del archivo de informacion de vendedores */
     private static final String SALESMEN_INFO_FILE = "salesmen_info.txt";
 
@@ -90,6 +97,11 @@ public class GenerateInfoFiles {
      * para garantizar coherencia entre el archivo de informacion de vendedores y
      * los archivos individuales de ventas (mismo ID y nombre en ambos).</p>
      *
+     * <p>Implementa el extra (a): con probabilidad {@value #EXTRA_FILE_PROBABILITY},
+     * se genera un segundo archivo de ventas para el mismo vendedor
+     * (mismo numero de documento en el encabezado). La clase {@code main}
+     * detecta y acumula ambos archivos correctamente.</p>
+     *
      * <p>No solicita ninguna informacion al usuario.</p>
      *
      * @param args Argumentos de linea de comandos (no se utilizan)
@@ -129,6 +141,17 @@ public class GenerateInfoFiles {
                 createSalesMenFile(salesCount, firstNames[i], docNumbers[i], docTypes[i]);
                 System.out.println("[OK] Archivo de ventas generado: "
                         + firstNames[i] + "_" + docNumbers[i] + ".txt");
+
+                // Extra (a): segundo archivo de ventas para el mismo vendedor.
+                // El encabezado lleva el mismo TipoDoc;NumDoc, por lo que main.java
+                // lo reconoce y acumula correctamente las ventas de ambos archivos.
+                if (RANDOM.nextDouble() < EXTRA_FILE_PROBABILITY) {
+                    int extraSalesCount = 1 + RANDOM.nextInt(MAX_SALES_PER_VENDOR);
+                    createSalesMenFile(extraSalesCount,
+                            firstNames[i] + "_v2", docNumbers[i], docTypes[i]);
+                    System.out.println("[OK] Archivo extra de ventas generado: "
+                            + firstNames[i] + "_v2_" + docNumbers[i] + ".txt");
+                }
             }
 
             System.out.println("\n=== Generacion de archivos completada exitosamente ===");
